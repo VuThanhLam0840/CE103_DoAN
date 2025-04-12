@@ -1,5 +1,7 @@
 org 0000h
-	MOV DPTR, #0000H
+mov DPTR, #mangso + 8
+mov r4, dpl
+mov r5, dph
 MAIN:
 Hang1: ; Row 1 = P1.7
 	MOV P1, #07FH
@@ -8,22 +10,22 @@ Hang1: ; Row 1 = P1.7
 Hang2: ; Row 2 = P1.6
 	MOV P1, #0BFH
 	MOV DPTR, #chuoi2
-	ACALL cot1_4
 Hang3: ; Row 3 = P1.5
 	MOV P1, #0DFH
 	MOV DPTR, #chuoi3
 	ACALL cot1_4
 Hang4: ; Row 4 = P1.4
-	MOV P1, #0EFH
+	MOV P1, #0EFH	
 	MOV DPTR, #chuoi4
 	ACALL cot1_4
-	sjmp chuanbi
+	sjmp neukhongnhapthidptrnhucu; quay l?i quét ti?p
 cot1_4:
 	jnb P1.3,nut1
 	jnb P1.2,nut2
 	jnb P1.1,nut3
 	jnb P1.0,nut4
 	ret
+; X? lý t?ng phím (gán s? tuong ?ng vào R0)
 nut1:  mov A,#0 
 sjmp neuconhapthitangdptr
 nut2:  mov A,#1   
@@ -32,17 +34,20 @@ nut3:  mov A,#2
 sjmp neuconhapthitangdptr
 nut4:  mov A,#3  
 sjmp neuconhapthitangdptr
+
 neuconhapthitangdptr:
-		;dptr++ 
-		;r5,r4=dptr
+		INC DPTR
+		MOV R4, DPL 
+		MOV R5, DPH
 		SJMP CHUANBI
 neukhongnhapthidptrnhucu:
-		;dptr = r5,r4 
+		MOV DPL, R4
+		MOV DPH, R5
 chuanbi:
-	MOV R4, #8
+	MOV R6, #8
 	MOV P2, #00H
 loop: 
-	DJNZ R4,display8led
+	DJNZ R6,display8led
 	;A+=7 
 	SJMP MAIN
 display8led:
@@ -56,10 +61,11 @@ display8led:
 	MOV A, B
 	sjmp loop
 	
-ORG 3000H
+	
+ORG 0035H
 chuoi1: DB 3FH, 06H, 5BH, 4FH
 chuoi2:	DB 66H, 6DH, 7DH, 07H
 chuoi3: DB 7FH, 6FH, 77H, 7Ch
-chuoi4: DB 10H, 5Eh, 79H, 71H
-mangso: DB 3FH, 3FH, 3FH, 3FH, 3FH, 3FH, 3FH 
+chuoi4: DB 39H, 5Eh, 79H, 71H
+mangso: DB 3FH, 3FH, 3FH, 3FH, 3FH, 3FH, 3FH, 3fh 
 end
