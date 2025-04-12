@@ -17,7 +17,7 @@ Hang4: ; Row 4 = P1.4
 	MOV P1, #0EFH
 	MOV DPTR, #chuoi4
 	ACALL cot1_4
-	sjmp chuanbi; quay l?i quét ti?p
+	sjmp chuanbi
 cot1_4:
 	jnb P1.3,nut1
 	jnb P1.2,nut2
